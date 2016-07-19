@@ -1,0 +1,81 @@
+<project name="distro.build" default="build" basedir="./" xmlns:antcontrib="antlib:net.sf.antcontrib">
+
+	<!--
+	<property name="featurename" value="org.cfeclipse.cfml.releng" />
+	<property name="product.checkout.url" value="org.cfeclipse.cfml.releng" />
+	-->
+	<loadproperties srcfile="build.properties"/>
+	<import file="${cfdistro.build.file}"/>
+
+	<property name="deploy.quiet" value="true"/>
+	<property name="site.suffix" value="-dev"/>
+	<property name="generator.suffix" value="I"/>
+	<property name="merge.updates" value="false"/>
+	<property name="plugin.p2.dir" value="${dist.dir}/cfparser/update${site.suffix}"/>
+	<property name="plugin.p2.release.dir" value="http://cfeclipse.org/cfparser/update${site.suffix}"/>
+	<property name="remote.cfeclipse.sites.dir" value="from.cfeclipse.properties"/>
+	<property name="remote.p2.dir" value="${remote.sites.dir}/cfparser/update${site.suffix}"/>
+	<property name="sign" value="false"/>
+	<available file="${src.dir}/org.cfeclipse.cfparser/" type="dir" property="cfparserdir.isthere" />
+	
+	<target name="clean.all">
+		<delete dir="${dist.dir}"/>
+		<delete dir="${basedir}/workspace"/>
+		<delete dir="${basedir}/target-platform"/>
+	</target>
+	
+	<target name="cfparser.checkout" unless="cfparserdir.isthere">
+         <antcontrib:runtarget target="project.update" />
+	</target>
+
+	<target name="build" depends="cfparser.checkout">
+		<antcontrib:var name="src.dir" value="${dist.root.dir}" />
+		<abspath property="dist.dir" path="${dist.dir}" />
+		<abspath property="product.zip.dir" path="${dist.dir}/product" />
+		<delete dir="${plugin.p2.dir}"/>
+		<mkdir dir="${dist.dir}"/>
+		<property name="script.dir" location="${src.dir}/org.cfeclipse.releng"/>
+		<echo message="sc.cfparser-eclipse.branch:${sc.cfparser-eclipse.branch} site.suffix:${site.suffix} generator.suffix:${generator.suffix}"/>
+ 		<maven-run basedir="${dist.root.dir}"
+             options="-Dplugin.p2.dir=${plugin.p2.dir} -Dbuild.type=${build.type} -Dsite.suffix=${site.suffix} -Dsign=${sign} -Dmerge.updates=${merge.updates}"
+             goal="clean verify"
+             resultproperty="maven.build.result"/>
+         <echo message="${maven.build.result}" />
+	</target>
+
+	<target name="build.release" depends="project.update,build.and.scp">
+		<git command="log" dir="${dist.root.dir}" verbose="false" use-jgit="false"><args><arg value="-n"/><arg value="1"/><arg value="origin/${sc.cfparser-eclipse.branch}"/></args></git>
+		<antcontrib:propertyregex property="info.smaller"
+			input="${git.results}" global="true"
+			regexp="(?s)commit (\w{7}).+?Author\: (\w+[\w ]+).+?Date:.+?[\r\n]+[^\S]+(.+)"
+			description="\1 is commit hash, \2 is author, \3 is message"
+			select=" #CFML ${build.type} \2 > \3"
+			casesensitive="false" />
+		<!--
+		<input message="Tweet:" defaultvalue="${info.smaller}" addproperty="tweet" />
+		-->
+    	<taskdef-dependency name="twitter" classname="de.ecw.ant.twitter.AntTwitterTask" artifactId="ant-twitter" groupId="cfdistro.lib" version="1.0.0" />
+		<twitter message="${info.smaller}" 
+			consumerKey="${remote.cfeclipse.twitter.consumer.key}" 
+			consumerSecret="${remote.cfeclipse.twitter.consumer.secret}" 
+			accessToken="${remote.cfeclipse.twitter.token}" 
+			accessTokenSecret="${remote.cfeclipse.twitter.token.secret}" 
+			bitlyUsername="bitly-username" 
+			bitlyApiKey="bitly-key" 
+			enableBitly="false" />
+	</target>
+
+	<target name="build.and.scp" depends="build">
+		<antcontrib:var name="remote" value="cfeclipse"/>
+		<cfdistro.setremote />
+		<echo message="scp update site"/>
+		<deploy-scp toDir="${remote.user}@${remote.host}:${remote.p2.dir}" fromdir="${plugin.p2.dir}">
+			<scpfiles>
+				<fileset dir="${plugin.p2.dir}">
+					<include name="**/*"/>
+				</fileset>
+			</scpfiles>
+		</deploy-scp>
+	</target>
+	
+</project>
