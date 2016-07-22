@@ -42,7 +42,28 @@
              resultproperty="maven.build.result"/>
          <echo message="${maven.build.result}" />
 	</target>
-
+	<target name="p2.html">
+		<echo file="${temp.dir}/p2files.txt"><![CDATA[<table cellspacing="0" cellpadding="0"><tr><td colspan="2" style="border-top:0px; padding-top:3px;padding-left:8px;"><em>Files</em></td></tr>]]>
+		</echo>
+		<antcontrib:for param="file">
+			<path><fileset dir="${plugin.p2.dir}" includes="**/*.jar"/></path>
+			<sequential>
+				<antcontrib:propertyregex override="yes" property="p2file" input="@{file}" regexp=".*?${plugin.p2.dir}\/?(.+)" replace="\1"/>
+ 				<echo file="${temp.dir}/p2files.txt" append="true"><![CDATA[<tr><td valign="top" style="padding:5px"><a href="${p2file}">${p2file}</a></td><td valign="top" style="padding:5px"></td></tr>]]>
+				</echo>
+			</sequential>
+	  	</antcontrib:for>
+		<echo file="${temp.dir}/p2files.txt" append="true"><![CDATA[</table>]]></echo>
+		<loadfile srcfile="${temp.dir}/p2files.txt" property="p2files.table" />
+		<copy file="${src.dir}/org.cfeclipse.cfparser.update${site.suffix}/index.html" todir="${plugin.p2.dir}">
+		    <filterchain><expandproperties /></filterchain>
+		</copy>
+		<replaceregexp file="${plugin.p2.dir}/index.html"
+		match='(?s)&lt;div id="data"&gt;.*?&lt;\/div&gt;'
+		replace='&lt;div id="data"&gt;${line.separator}${p2files.table}${line.separator}&lt;\/div&gt;' byline="false" />
+		<delete dir="${temp.dir}" />		
+	</target>
+	
 	<target name="build.release" depends="project.update,build.and.scp">
 		<git command="log" dir="${dist.root.dir}" verbose="false" use-jgit="false"><args><arg value="-n"/><arg value="1"/><arg value="origin/${sc.cfparser-eclipse.branch}"/></args></git>
 		<antcontrib:propertyregex property="info.smaller"
@@ -65,7 +86,7 @@
 			enableBitly="false" />
 	</target>
 
-	<target name="build.and.scp" depends="build">
+	<target name="build.and.scp" depends="build, p2.html">
 		<antcontrib:var name="remote" value="cfeclipse"/>
 		<cfdistro.setremote />
 		<echo message="scp update site"/>
