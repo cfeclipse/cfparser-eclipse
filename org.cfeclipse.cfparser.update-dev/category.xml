@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <bundle id="org.cfeclipse.cfparser" version="1.0.0.qualifier">
+   <bundle id="org.cfeclipse.cfparser" version="0.0.0">
       <category name="cfeclipse.category.id"/>
    </bundle>
    <category-def name="cfparser.category.id" label="CFParser (Required)">

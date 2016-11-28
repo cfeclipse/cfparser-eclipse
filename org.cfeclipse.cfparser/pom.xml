@@ -4,10 +4,9 @@
 	<parent>
 		<groupId>org.cfeclipse.cfparser</groupId>
 		<artifactId>cfparser</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>2.2.11-SNAPSHOT</version>
 	</parent>
 	<artifactId>org.cfeclipse.cfparser</artifactId>
-	<version>2.2.11-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
 
 	<properties>
