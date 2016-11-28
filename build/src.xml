@@ -2,7 +2,7 @@
 <src>
 	<project>
 		<src dest="@src.dir@" password="" type="git" 
-		 uri="@sc.cfparser-eclipse.uri@" user="" remote="origin" branch="master"/>
+		 uri="@sc.cfparser-eclipse.uri@" user="" remote="origin" branch="@sc.cfparser-eclipse.branch@"/>
 	</project>
 	<sources>
 	</sources>
