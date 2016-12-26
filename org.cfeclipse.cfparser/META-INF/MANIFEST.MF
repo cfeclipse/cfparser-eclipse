@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: CFParser
 Bundle-SymbolicName: org.cfeclipse.cfparser
-Bundle-Version: 2.2.12
+Bundle-Version: 2.3.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ClassPath: lib/cfml.dictionary.jar,
  lib/cfml.parsing.jar,
