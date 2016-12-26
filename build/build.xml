@@ -41,9 +41,10 @@
              goal="clean verify"
              resultproperty="maven.build.result"/>
          <echo message="${maven.build.result}" />
+         <antcontrib:runtarget target="p2.html" />
 	</target>
 	<target name="p2.html">
-		<echo file="${temp.dir}/p2files.txt"><![CDATA[<table cellspacing="0" cellpadding="0"><tr><td colspan="2" style="border-top:0px; padding-top:3px;padding-left:8px;"><em>Files</em></td></tr>]]>
+		<echo file="${temp.dir}/p2files.txt"><![CDATA[<table class="table table-striped table-hover "><thead><tr><th colspan="2" style="border-top:0px; padding-top:3px;padding-left:8px;"><em>Files</em></th></tr></thead><tbody>]]>
 		</echo>
 		<antcontrib:for param="file">
 			<path><fileset dir="${plugin.p2.dir}" includes="**/*.jar"/></path>
@@ -53,7 +54,7 @@
 				</echo>
 			</sequential>
 	  	</antcontrib:for>
-		<echo file="${temp.dir}/p2files.txt" append="true"><![CDATA[</table>]]></echo>
+		<echo file="${temp.dir}/p2files.txt" append="true"><![CDATA[</tbody></table>]]></echo>
 		<loadfile srcfile="${temp.dir}/p2files.txt" property="p2files.table" />
 		<copy file="${src.dir}/org.cfeclipse.cfparser.update${site.suffix}/index.html" todir="${plugin.p2.dir}">
 		    <filterchain><expandproperties /></filterchain>
