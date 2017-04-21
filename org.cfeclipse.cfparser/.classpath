@@ -7,6 +7,8 @@
 	<classpathentry exported="true" kind="lib" path="lib/antlr4.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jdom.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jericho-html.jar"/>
-	<classpathentry kind="src" path="src/"/>
+	<classpathentry kind="lib" path="lib/antlr-runtime.jar"/>
+	<classpathentry kind="lib" path="lib/antlr4-runtime.jar"/>
+	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
