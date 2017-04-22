@@ -7,8 +7,8 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ClassPath: lib/cfml.dictionary.jar,
  lib/cfml.parsing.jar,
  lib/antlr4.jar,
- lib/antlr4-runtime.jar,
  lib/antlr-runtime.jar,
+ lib/antlr4-runtime.jar,
  lib/jdom.jar,
  lib/jericho-html.jar,
  .
