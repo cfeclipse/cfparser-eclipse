@@ -5,13 +5,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.cfeclipse.cfparser</groupId>
 	<artifactId>cfparser</artifactId>
-	<version>2.2.12</version>
+	<version>2.4.10-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<tycho.version>0.26.0</tycho.version>
-		<tycho-extras.version>0.26.0</tycho-extras.version>
+		<tycho.version>1.0.0</tycho.version>
+		<tycho-extras.version>1.0.0</tycho-extras.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<mars-repo.url>http://download.eclipse.org/releases/mars</mars-repo.url>
 		<neon-repo.url>http://download.eclipse.org/releases/neon</neon-repo.url>
