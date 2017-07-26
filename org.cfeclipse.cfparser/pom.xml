@@ -4,13 +4,13 @@
 	<parent>
 		<groupId>org.cfeclipse.cfparser</groupId>
 		<artifactId>cfparser</artifactId>
-		<version>2.4.5-SNAPSHOT</version>
+		<version>2.4.10-SNAPSHOT</version>
 	</parent>
 	<artifactId>org.cfeclipse.cfparser</artifactId>
 	<packaging>eclipse-plugin</packaging>
 
 	<properties>
-		<cfparser.version>2.4.5</cfparser.version>
+		<cfparser.version>2.4.10</cfparser.version>
 		<dependency.dir>${project.basedir}/lib</dependency.dir>
 		<maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
 	</properties>
