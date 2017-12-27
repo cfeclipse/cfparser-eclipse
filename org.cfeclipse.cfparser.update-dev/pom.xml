@@ -13,7 +13,6 @@
 	<packaging>eclipse-repository</packaging>
 	<properties>
 		<site.suffix>-dev</site.suffix>
-		<jboss.tycho.tools.version>0.26.0</jboss.tycho.tools.version>
 		<update.site.name>[dev] CFParser Update</update.site.name>
 		<update.site.url>http://cfeclipse.org/cfparser/update${site.suffix}</update.site.url>
 		<update.site.github>http://github.com/cfeclipse/org.cfeclipse.cfparser</update.site.github>
@@ -73,7 +72,7 @@
 			<plugin>
 				<groupId>org.jboss.tools.tycho-plugins</groupId>
 				<artifactId>repository-utils</artifactId>
-				<version>${jboss.tycho.tools.version}</version>
+				<version>${tycho-extras.version}</version>
 				<executions>
 					<!-- creates index.html and other artifacts -->
 					<execution>
@@ -103,7 +102,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.7</version>
+				<version>1.8</version>
 				<executions>
 					<execution>
 						<id>copy-webdocs-and-whatnot</id>
